@@ -1,0 +1,24 @@
+[
+  {
+    "tahun":"2026",
+    "kelas":"3",
+    "peringkat":"Juara 1",
+    "nama":"Nama Peserta",
+    "gambar":"images/kelas3_j1.PNG",
+    "featured":true
+  },
+  {
+    "tahun":"2026",
+    "kelas":"3",
+    "peringkat":"Juara 2",
+    "nama":"Nama Peserta",
+    "gambar":"images/kelas3_j2.PNG"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"3",
+    "peringkat":"Juara 3",
+    "nama":"Nama Peserta",
+    "gambar":"images/kelas3_j3.PNG"
+  }
+]

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Lomba Kaligrafi Kontemporer - MD AL-HILAL</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:Segoe UI,Arial,sans-serif;background:#f4f7fb;display:flex;flex-direction:column}
+main{flex:1}
+header{
+background:linear-gradient(135deg,#0f766e,#14b8a6);
+color:#fff;padding:20px
+}
+.header-wrap{max-width:1200px;margin:auto;display:flex;align-items:center;gap:20px}
+.logo{width:100px;height:100px;object-fit:contain;background:#fff;border-radius:50%;padding:8px}
+@media(max-width:768px){.header-wrap{flex-direction:column;text-align:center}}
+.container{max-width:1200px;margin:auto;padding:20px}
+.featured,.stats,.filters,.gallery-card{background:#fff;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.featured{padding:20px;margin-bottom:20px;text-align:center}
+.featured img{max-width:100%;max-height:500px;object-fit:contain}
+.stats{padding:15px;margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap}
+.stat{flex:1;min-width:150px;background:#eef7f6;padding:10px;border-radius:10px;text-align:center}
+.filters{padding:15px;margin-bottom:20px}
+.filters select{padding:8px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.gallery-card{overflow:hidden}
+.gallery-card img{width:100%;height:340px;object-fit:contain;background:#fafafa;cursor:pointer}
+.info{padding:12px;text-align:center}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;color:#fff;font-weight:bold}
+.gold{background:#d4a017}.silver{background:#9e9e9e}.bronze{background:#b87333}.blue{background:#2563eb}
+.btn{display:inline-block;margin-top:8px;padding:8px 12px;background:#0f766e;color:#fff;text-decoration:none;border-radius:8px}
+footer{background:#0f766e;color:#fff;text-align:center;padding:15px;margin-top:20px}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);justify-content:center;align-items:center;z-index:9999}
+.lightbox img{max-width:95%;max-height:95%}
+.close{position:absolute;top:15px;right:20px;color:#fff;font-size:35px;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+<div class="header-wrap">
+<img src="logo.png" class="logo" alt="Logo">
+<div>
+<h1>🏆 Hasil Lomba Kaligrafi Kontemporer</h1>
+<p>Madrasah Diniyah AL-HILAL<br>Dusun Bangkal, Desa Padelegan, Kecamatan Pademawu, Kabupaten Pamekasan</p>
+</div>
+</div>
+</header>
+
+<main class="container">
+<div id="featured" class="featured"></div>
+<div id="stats" class="stats"></div>
+
+<div class="filters">
+Tahun:
+<select id="tahunFilter"></select>
+Kelas:
+<select id="kelasFilter">
+<option value="all">Semua</option>
+<option value="3">Kelas 3</option>
+<option value="4">Kelas 4</option>
+<option value="5">Kelas 5</option>
+<option value="6">Kelas 6</option>
+</select>
+</div>
+
+<div id="gallery" class="gallery"></div>
+</main>
+
+<footer>
+© Madrasah Diniyah AL-HILAL - Dokumentasi Lomba Kaligrafi Kontemporer
+</footer>
+
+<div class="lightbox" id="lightbox">
+<span class="close" onclick="document.getElementById('lightbox').style.display='none'">&times;</span>
+<img id="lightboxImg">
+</div>
+
+<script>
+let allData=[];
+
+fetch('data.json')
+.then(r=>r.json())
+.then(data=>{
+ allData=data;
+ initFilters();
+ renderFeatured();
+ renderStats();
+ renderGallery();
+});
+
+function initFilters(){
+ const years=[...new Set(allData.map(x=>x.tahun))];
+ const sel=document.getElementById('tahunFilter');
+ sel.innerHTML='<option value="all">Semua Tahun</option>';
+ years.forEach(y=>sel.innerHTML+=`<option value="${y}">${y}</option>`);
+ sel.onchange=renderGallery;
+ document.getElementById('kelasFilter').onchange=renderGallery;
+}
+
+function renderFeatured(){
+ const f=allData.find(x=>x.featured);
+ if(!f) return;
+ document.getElementById('featured').innerHTML=`
+ <h2>⭐ Karya Unggulan ⭐</h2>
+ <img src="${f.gambar}">
+ <h3>${f.nama}</h3>
+ <p>${f.peringkat} - Kelas ${f.kelas}</p>`;
+}
+
+function renderStats(){
+ const total=allData.length;
+ const kelas=[3,4,5,6];
+ let html=`<div class="stat"><b>Total Karya</b><br>${total}</div>`;
+ kelas.forEach(k=>{
+ html+=`<div class="stat"><b>Kelas ${k}</b><br>${allData.filter(x=>x.kelas==k).length}</div>`;
+ });
+ document.getElementById('stats').innerHTML=html;
+}
+
+function badgeClass(p){
+ if(p.includes('Juara 1')) return 'gold';
+ if(p.includes('Juara 2')) return 'silver';
+ if(p.includes('Juara 3')) return 'bronze';
+ return 'blue';
+}
+
+function renderGallery(){
+ const tahun=document.getElementById('tahunFilter').value;
+ const kelas=document.getElementById('kelasFilter').value;
+
+ let data=allData.filter(x=>
+ (tahun==='all'||x.tahun===tahun) &&
+ (kelas==='all'||x.kelas===kelas)
+ );
+
+ document.getElementById('gallery').innerHTML=data.map(x=>`
+ <div class="gallery-card">
+ <img src="${x.gambar}" onclick="openImg('${x.gambar}')">
+ <div class="info">
+ <span class="badge ${badgeClass(x.peringkat)}">${x.peringkat}</span>
+ <h3>${x.nama}</h3>
+ <p>Kelas ${x.kelas} • ${x.tahun}</p>
+ <a class="btn" href="${x.gambar}" download>Download</a>
+ </div></div>`).join('');
+}
+
+function openImg(src){
+ document.getElementById('lightbox').style.display='flex';
+ document.getElementById('lightboxImg').src=src;
+}
+</script>
+</body>
+</html>
