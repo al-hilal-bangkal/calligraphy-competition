@@ -3,22 +3,169 @@
     "tahun":"2026",
     "kelas":"3",
     "peringkat":"Juara 1",
-    "nama":"Nama Peserta",
-    "gambar":"images/kelas3_j1.PNG",
+    "nama":"Adara Fredilla Auliani",
+    "gambar":"images/kelas3_j1.jpg",
     "featured":true
   },
   {
     "tahun":"2026",
     "kelas":"3",
     "peringkat":"Juara 2",
-    "nama":"Nama Peserta",
-    "gambar":"images/kelas3_j2.PNG"
+    "nama":"Novita Maulidina Putri",
+    "gambar":"images/kelas3_j2.jpg"
   },
   {
     "tahun":"2026",
     "kelas":"3",
     "peringkat":"Juara 3",
-    "nama":"Nama Peserta",
-    "gambar":"images/kelas3_j3.PNG"
+    "nama":"Olivia Dzakiyatur Ridwan",
+    "gambar":"images/kelas3_j3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"3",
+    "peringkat":"Harapan 1",
+    "nama":"Nurul Hidayati",
+    "gambar":"images/kelas3_h1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"3",
+    "peringkat":"Harapan 2",
+    "nama":"Yusra Atika Rohmah",
+    "gambar":"images/kelas3_h2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"3",
+    "peringkat":"Harapan 3",
+    "nama":"Nur Riyadatul Firdausiyah",
+    "gambar":"images/kelas3_h3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"4",
+    "peringkat":"Juara 1",
+    "nama":"Nasywa Ghasiah Tamam",
+    "gambar":"images/kelas4_j1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"4",
+    "peringkat":"Juara 2",
+    "nama":"Ashfa Zidna Zaidani",
+    "gambar":"images/kelas4_j2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"4",
+    "peringkat":"Juara 3",
+    "nama":"Arsyifa Rizki Aulia",
+    "gambar":"images/kelas4_j3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"4",
+    "peringkat":"Harapan 1",
+    "nama":"Nur Amelia Ramadhani",
+    "gambar":"images/kelas4_h1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"4",
+    "peringkat":"Harapan 2",
+    "nama":"Wisma Wardani",
+    "gambar":"images/kelas4_h2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"4",
+    "peringkat":"Harapan 3",
+    "nama":"Fajar",
+    "gambar":"images/kelas4_h3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"5",
+    "peringkat":"Juara 1",
+    "nama":"Diky Ramadani",
+    "gambar":"images/kelas5_j1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"5",
+    "peringkat":"Juara 2",
+    "nama":"Marisa Annisak Tamam",
+    "gambar":"images/kelas5_j2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"5",
+    "peringkat":"Juara 3",
+    "nama":"Reyhan",
+    "gambar":"images/kelas5_j3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"5",
+    "peringkat":"Harapan 1",
+    "nama":"Atika Qurrotul Hasanah",
+    "gambar":"images/kelas5_h1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"5",
+    "peringkat":"Harapan 2",
+    "nama":"Salwa Uzma Ariyani",
+    "gambar":"images/kelas5_h2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"5",
+    "peringkat":"Harapan 3",
+    "nama":"Fila",
+    "gambar":"images/kelas5_h3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"6",
+    "peringkat":"Juara 1",
+    "nama":"Widy",
+    "gambar":"images/kelas6_j1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"6",
+    "peringkat":"Juara 2",
+    "nama":"syifa",
+    "gambar":"images/kelas6_j2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"6",
+    "peringkat":"Juara 3",
+    "nama":"Rika",
+    "gambar":"images/kelas6_j3.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"6",
+    "peringkat":"Harapan 1",
+    "nama":"Faza",
+    "gambar":"images/kelas6_h1.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"6",
+    "peringkat":"Harapan 2",
+    "nama":"Alga",
+    "gambar":"images/kelas6_h2.jpg"
+  },
+  {
+    "tahun":"2026",
+    "kelas":"6",
+    "peringkat":"Harapan 3",
+    "nama":"Kia",
+    "gambar":"images/kelas6_h3.jpg"
   }
 ]
