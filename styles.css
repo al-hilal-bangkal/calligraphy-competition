@@ -25,7 +25,8 @@ body {
    HEADER
    ============================================================ */
 .header {
-    background: #2c3e50;
+    /* background: #2c3e50; */
+    background: linear-gradient(90deg, #2c3e50, #2c3e);
     color: #ecf0f1;
     padding: 20px 0;
     border-bottom: 4px solid #1abc9c;
