@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jadwal Mengajar Asatid</title>
+<link rel="icon" href="alhilal.jpeg" />
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #f4f7fc; min-height: 100vh; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+    .header { display: flex; align-items: center; gap: 20px; padding: 25px 30px; background: linear-gradient(135deg, #2c3e50, #34495e); color: #fff; }
+    .header .logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #1abc9c; background: #ecf0f1; flex-shrink: 0; }
+    .header .info { flex: 1; }
+    .header .info h1 { font-size: 24px; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; }
+    .header .info p { font-size: 14px; color: #d5dbdb; margin: 2px 0; }
+    .header .info .ta { display: inline-block; background: #1abc9c; color: #fff; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; margin-top: 6px; }
+    .content { padding: 25px 30px 35px; }
+
+    /* ===== CLOCK WIDGET ===== */
+    .clock-widget {
+        margin-bottom: 25px;
+        padding: 22px 28px;
+        background: linear-gradient(135deg, #1abc9c, #16a085);
+        color: #fff;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        box-shadow: 0 6px 20px rgba(26,188,156,0.3);
+    }
+    .clock-widget .clock-left { display: flex; flex-direction: column; gap: 3px; }
+    .clock-widget .clock-right { text-align: right; display: flex; flex-direction: column; gap: 3px; }
+    .clock-widget .clock-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.8px; opacity: 0.85; font-weight: 500; }
+    .clock-widget .clock-day { font-size: 24px; font-weight: 700; letter-spacing: 0.5px; line-height: 1.2; }
+    .clock-widget .clock-date { font-size: 13px; opacity: 0.9; }
+    .clock-widget .clock-time {
+        font-size: 38px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+        font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    /* ===== JADWAL HARI INI ===== */
+    .hari-section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .hari-section-title::before {
+        content: '';
+        width: 4px;
+        height: 20px;
+        background: #1abc9c;
+        border-radius: 2px;
+    }
+    .hari-section { margin-bottom: 30px; }
+
+    .hari-card {
+        background: #fff;
+        border: 1px solid #e8ecf0;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        transition: 0.2s;
+    }
+    .hari-card.today {
+        border-color: #1abc9c;
+        border-width: 2px;
+        box-shadow: 0 6px 18px rgba(26,188,156,0.18);
+    }
+    .hari-card-header {
+        padding: 11px 18px;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .hari-card.today .hari-card-header {
+        background: linear-gradient(90deg, #1abc9c, #16a085);
+        color: #fff;
+    }
+    .hari-card-header .day-name {
+        font-size: 15px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: 0.3px;
+    }
+    .hari-card-header .day-date {
+        font-size: 12px;
+        opacity: 0.85;
+        font-weight: 500;
+    }
+    .badge-hari-ini {
+        background: rgba(255,255,255,0.28);
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .hari-card-body { overflow-x: auto; }
+    .hari-card-body table { min-width: auto; width: 100%; font-size: 13px; border-collapse: collapse; }
+    .hari-card-body th,
+    .hari-card-body td { border: none; border-bottom: 1px solid #f0f4f8; padding: 9px 18px; text-align: left; }
+    .hari-card-body th {
+        background: #fafbfc;
+        color: #7f8c8d;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+    .hari-card-body tr:last-child td { border-bottom: none; }
+    .hari-card-body tbody tr:hover td { background: #f8f9fa; }
+    .jam-badge {
+        display: inline-block;
+        background: #eaf7f3;
+        color: #16a085;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+    .hari-card.today .jam-badge { background: #d4f5ec; }
+    .istirahat-row td {
+        background: #fff8e1 !important;
+        color: #856404;
+        font-style: italic;
+        text-align: center !important;
+        font-size: 12px;
+    }
+    .no-jadwal {
+        padding: 22px;
+        text-align: center;
+        color: #95a5a6;
+        font-style: italic;
+        font-size: 13px;
+    }
+
+    /* ===== TITLE & BUTTONS ===== */
+    .title-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .title-section h2 { font-size: 18px; color: #2c3e50; font-weight: 600; }
+    .btn { padding: 8px 18px; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+    .btn-primary { background: #1abc9c; color: #fff; }
+    .btn-primary:hover { background: #16a085; }
+
+    /* ===== FULL TABLE ===== */
+    .table-wrapper { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    table.full-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
+    table.full-table th, table.full-table td { border: 1px solid #ddd; padding: 8px 10px; text-align: center; vertical-align: middle; }
+    table.full-table th { background: #2c3e50; color: #ecf0f1; font-weight: 600; }
+    table.full-table tr:nth-child(even) td { background: #fafbfc; }
+    .hari-cell { font-weight: bold; background: #f0f4f8 !important; vertical-align: middle; }
+    .jam-cell { font-weight: 500; background: #f8f9fa; }
+    .guru-cell { font-weight: 600; color: #2c3e50; display: block; }
+    .mapel-cell { font-size: 11px; color: #7f8c8d; display: block; margin-top: 2px; }
+    .empty-cell { color: #ccc; }
+    .istirahat-cell { background: #fff3cd !important; color: #856404; font-style: italic; }
+
+    .loading, .error { text-align: center; padding: 60px 20px; color: #7f8c8d; }
+    .error { color: #e74c3c; }
+    .footer { text-align: center; padding: 20px; font-size: 12px; color: #95a5a6; }
+    .wali-box { margin-top: 16px; padding: 12px 16px; background: #f8f9fa; border-radius: 8px; font-size: 13px; line-height: 1.9; }
+    .wali-box strong { color: #2c3e50; }
+    .info-note { margin-top: 14px; padding: 10px 14px; background: #eaf7f3; border-left: 4px solid #1abc9c; border-radius: 4px; font-size: 12px; color: #555; }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; border-radius: 0; }
+        .no-print { display: none !important; }
+        .header { background: #2c3e50 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        table.full-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .hari-card.today .hari-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .clock-widget { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+    @media (max-width: 600px) {
+        body { padding: 10px; }
+        .header { flex-direction: column; text-align: center; padding: 20px; }
+        .header .info h1 { font-size: 20px; }
+        .content { padding: 15px; }
+        .clock-widget { flex-direction: column; text-align: center; padding: 18px; }
+        .clock-widget .clock-right { text-align: center; }
+        .clock-widget .clock-time { font-size: 32px; }
+        .clock-widget .clock-day { font-size: 20px; }
+        .hari-card-body th, .hari-card-body td { padding: 8px 12px; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img class="logo" id="logo" src="https://via.placeholder.com/80?text=Logo" alt="Logo" />
+        <div class="info">
+            <h1 id="namaMadrasah">Memuat...</h1>
+            <p id="alamatMadrasah"></p>
+            <span class="ta" id="tahunAjaran"></span>
+        </div>
+    </div>
+    <div class="content">
+
+        <!-- ===== CLOCK WIDGET ===== -->
+        <div class="clock-widget no-print">
+            <div class="clock-left">
+                <div class="clock-label">Hari Ini</div>
+                <div class="clock-day" id="clockDay">-</div>
+                <div class="clock-date" id="clockDate">-</div>
+            </div>
+            <div class="clock-right">
+                <div class="clock-label">Waktu Sekarang</div>
+                <div class="clock-time" id="clockTime">--:--:--</div>
+            </div>
+        </div>
+
+        <!-- ===== JADWAL HARI INI & SELANJUTNYA ===== -->
+        <div id="jadwalHariIni" class="hari-section"></div>
+
+        <!-- ===== TABEL LENGKAP MINGGUAN ===== -->
+        <div class="title-section">
+            <h2>📋 Jadwal Lengkap Mingguan</h2>
+            <button class="btn btn-primary no-print" onclick="window.print()">🖨️ Cetak</button>
+        </div>
+        <div id="jadwalContent">
+            <div class="loading">⏳ Memuat data jadwal...</div>
+        </div>
+    </div>
+    <div class="footer no-print">
+        <span id="footerInfo">Binduk MADIN</span> &copy; <span id="tahunSekarang"></span>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// KONFIGURASI NAMA FILE BACKUP JSON
+// ============================================================
+const NAMA_FILE_JSON = 'data.json';
+
+// ============================================================
+// KONSTANTA HARI
+// ============================================================
+// JS getDay(): 0=Minggu, 1=Senin, ..., 6=Sabtu
+const HARI_JS      = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
+const HARI_DISPLAY = { 'SENIN': 'Senin', 'SELASA': 'Selasa', 'RABU': 'Rabu', 'KAMIS': 'Kamis', 'JUMAT': "Jum'at", 'SABTU': 'Sabtu', 'MINGGU': 'Minggu' };
+const HARI_URUT    = ['SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
+
+// ============================================================
+// UTIL
+// ============================================================
+function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// Normalisasi nama hari (untuk handle "JUM'AT" vs "JUMAT")
+function normalizeHari(h) {
+    if (!h) return '';
+    return String(h).toUpperCase().replace(/['`]/g, '');
+}
+
+document.getElementById('tahunSekarang').textContent = new Date().getFullYear();
+
+// ============================================================
+// JAM REAL-TIME
+// ============================================================
+function updateClock() {
+    const now = new Date();
+    const hariName = HARI_JS[now.getDay()];
+    const hariDisplay = HARI_DISPLAY[hariName] || hariName;
+
+    // Tanggal format Indonesia
+    const tanggal = now.toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'long', year: 'numeric'
+    });
+
+    // Jam manual supaya pakai titik dua (bukan titik)
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+
+    const elDay = document.getElementById('clockDay');
+    const elDate = document.getElementById('clockDate');
+    const elTime = document.getElementById('clockTime');
+    if (elDay)  elDay.textContent = hariDisplay;
+    if (elDate) elDate.textContent = tanggal;
+    if (elTime) elTime.textContent = `${h}:${m}:${s}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ============================================================
+// DAPATKAN DAFTAR HARI "MULAI HARI INI" SAMPAI SABTU
+// ============================================================
+function getUpcomingDays() {
+    const todayIdx = new Date().getDay(); // 0=Minggu ... 6=Sabtu
+
+    // Jika hari Minggu, tampilkan semua hari (Senin s/d Sabtu)
+    if (todayIdx === 0) return [...HARI_URUT];
+
+    // Mulai dari hari ini sampai Sabtu
+    const result = [];
+    for (let i = todayIdx; i <= 6; i++) {
+        result.push(HARI_JS[i]);
+    }
+    return result;
+}
+
+// Hitung tanggal untuk hari tertentu dalam minggu ini (atau minggu depan)
+function getDateForDay(dayName) {
+    const today = new Date();
+    const todayIdx = today.getDay();
+    const targetIdx = HARI_JS.indexOf(dayName);
+    if (targetIdx === -1) return today;
+
+    let diff = targetIdx - todayIdx;
+    if (diff < 0) diff += 7; // sudah lewat, artinya minggu depan
+    const target = new Date(today);
+    target.setDate(today.getDate() + diff);
+    return target;
+}
+
+// ============================================================
+// RENDER JADWAL HARI INI & SELANJUTNYA
+// ============================================================
+function renderUpcomingSchedules(jadwal) {
+    const container = document.getElementById('jadwalHariIni');
+    if (!container) return;
+
+    if (!jadwal || jadwal.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const todayName = HARI_JS[new Date().getDay()];
+    const upcomingDays = getUpcomingDays();
+
+    // Cek apakah ada minimal 1 hari yang punya jadwal
+    const adaJadwalMendatang = upcomingDays.some(dayName =>
+        jadwal.some(j => normalizeHari(j.hari) === dayName)
+    );
+
+    let html = '<div class="hari-section-title">📅 Jadwal Hari Ini & Selanjutnya</div>';
+
+    if (!adaJadwalMendatang) {
+        html += '<div class="hari-card"><div class="no-jadwal">Belum ada jadwal untuk hari ini dan seterusnya.</div></div>';
+        container.innerHTML = html;
+        return;
+    }
+
+    upcomingDays.forEach(dayName => {
+        const daySchedules = jadwal.filter(j => normalizeHari(j.hari) === dayName);
+        const isToday = (dayName === todayName);
+        const targetDate = getDateForDay(dayName);
+        const dateStr = targetDate.toLocaleDateString('id-ID', {
+            day: '2-digit', month: 'short', year: 'numeric'
+        });
+
+        // Tampilkan hari ini (walau kosong) & hari lain yang ada jadwalnya
+        if (daySchedules.length === 0 && !isToday) return;
+
+        html += `<div class="hari-card ${isToday ? 'today' : ''}">`;
+        html += `<div class="hari-card-header">`;
+        html += `<div class="day-name">`;
+        if (isToday) html += `<span class="badge-hari-ini">Hari Ini</span>`;
+        html += `${escapeHtml(HARI_DISPLAY[dayName] || dayName)}</div>`;
+        html += `<div class="day-date">${dateStr}</div>`;
+        html += `</div>`;
+
+        if (daySchedules.length === 0) {
+            html += `<div class="no-jadwal">Tidak ada jadwal untuk hari ini.</div>`;
+        } else {
+            // Urutkan: jam ke-1 → istirahat → jam ke-2, lalu per kelas
+            daySchedules.sort((a, b) => {
+                const orderA = a.isIstirahat ? 99 : parseInt(a.jam_ke) || 0;
+                const orderB = b.isIstirahat ? 99 : parseInt(b.jam_ke) || 0;
+                if (orderA !== orderB) return orderA - orderB;
+                return String(a.kelas || '').localeCompare(String(b.kelas || ''));
+            });
+
+            html += '<div class="hari-card-body"><table><thead><tr>';
+            html += '<th style="width:110px;">Jam</th><th>Kelas</th><th>Guru</th><th>Mata Pelajaran</th>';
+            html += '</tr></thead><tbody>';
+
+            daySchedules.forEach(item => {
+                if (item.isIstirahat || item.jam_ke === 'ISTIRAHAT') {
+                    html += `<tr class="istirahat-row"><td colspan="4">☕ Istirahat</td></tr>`;
+                } else {
+                    html += `<tr>`;
+                    html += `<td><span class="jam-badge">Jam ${escapeHtml(item.jam_ke)}</span></td>`;
+                    html += `<td>${escapeHtml(item.kelas || '-')}</td>`;
+                    html += `<td><strong>${escapeHtml(item.guru || '-')}</strong></td>`;
+                    html += `<td>${escapeHtml(item.mapel || '-')}</td>`;
+                    html += `</tr>`;
+                }
+            });
+
+            html += '</tbody></table></div>';
+        }
+
+        html += '</div>';
+    });
+
+    container.innerHTML = html;
+}
+
+// ============================================================
+// RENDER TABEL LENGKAP MINGGUAN
+// ============================================================
+function renderTabelLengkap(data) {
+    const madrasah = data.madrasah || {};
+    const jadwal = data.jadwal || [];
+    const guruData = data.guru || [];
+
+    // Header madrasah
+    document.getElementById('namaMadrasah').textContent = madrasah.nama || 'Madrasah Diniyah';
+    if (madrasah.alamat) document.getElementById('alamatMadrasah').textContent = madrasah.alamat;
+    if (madrasah.logo) document.getElementById('logo').src = madrasah.logo;
+    if (madrasah.tahunAjaran) document.getElementById('tahunAjaran').textContent = 'Tahun Ajaran ' + madrasah.tahunAjaran;
+    document.title = 'Jadwal Mengajar - ' + (madrasah.nama || 'Madrasah');
+    document.getElementById('footerInfo').textContent = madrasah.nama || 'Binduk MADIN';
+
+    if (jadwal.length === 0) {
+        document.getElementById('jadwalContent').innerHTML =
+            '<div class="loading">📭 Belum ada data jadwal yang dibuat.</div>';
+        return;
+    }
+
+    // Kumpulkan kelas
+    const kelasSet = new Set();
+    jadwal.forEach(j => {
+        if (j.kelas && j.kelas !== 'SEMUA' && !j.isIstirahat) kelasSet.add(j.kelas);
+    });
+    const kelasList = [...kelasSet].sort();
+
+    // Kumpulkan hari
+    const hariSet = new Set(jadwal.map(j => normalizeHari(j.hari)));
+    const hariTampil = [...HARI_URUT.filter(h => hariSet.has(h))];
+    hariSet.forEach(h => { if (!hariTampil.includes(h)) hariTampil.push(h); });
+
+    // Kumpulkan jam
+    const jamSet = new Set();
+    jadwal.forEach(j => {
+        if (j.isIstirahat || j.jam_ke === 'ISTIRAHAT') jamSet.add('ISTIRAHAT');
+        else jamSet.add(String(j.jam_ke));
+    });
+    const jamOrder = ['1', 'ISTIRAHAT', '2'];
+    const jamList = jamOrder.filter(j => jamSet.has(j));
+    [...jamSet].sort().forEach(j => { if (!jamList.includes(j)) jamList.push(j); });
+    if (jamList.length === 0) jamList.push('1');
+
+    // Build matrix
+    const matrix = {};
+    hariTampil.forEach(hari => {
+        matrix[hari] = {};
+        jamList.forEach(jam => {
+            matrix[hari][jam] = {};
+            kelasList.forEach(k => matrix[hari][jam][k] = null);
+        });
+    });
+
+    jadwal.forEach(item => {
+        const hari = normalizeHari(item.hari);
+        const jam = (item.isIstirahat || item.jam_ke === 'ISTIRAHAT') ? 'ISTIRAHAT' : String(item.jam_ke);
+        if (matrix[hari] && matrix[hari][jam]) {
+            if (item.isIstirahat) {
+                kelasList.forEach(k => { matrix[hari][jam][k] = { isIstirahat: true }; });
+            } else if (kelasList.includes(item.kelas)) {
+                matrix[hari][jam][item.kelas] = item;
+            }
+        }
+    });
+
+    // Build tabel
+    let html = '<div class="table-wrapper"><table class="full-table"><thead><tr>';
+    html += '<th>Hari</th><th>Jam</th>';
+    kelasList.forEach(k => html += `<th>${escapeHtml(k)}</th>`);
+    html += '</tr></thead><tbody>';
+
+    hariTampil.forEach(hari => {
+        const rowspan = jamList.length;
+        jamList.forEach((jam, idx) => {
+            const isIstirahat = jam === 'ISTIRAHAT';
+            html += '<tr>';
+            if (idx === 0) {
+                html += `<td class="hari-cell" rowspan="${rowspan}">${escapeHtml(HARI_DISPLAY[hari] || hari)}</td>`;
+            }
+            if (isIstirahat) {
+                html += `<td class="istirahat-cell">Istirahat</td>`;
+            } else {
+                html += `<td class="jam-cell">Jam ke-${escapeHtml(jam)}</td>`;
+            }
+            kelasList.forEach(kelas => {
+                const item = matrix[hari][jam][kelas];
+                if (item && item.isIstirahat) {
+                    html += `<td class="istirahat-cell">Istirahat</td>`;
+                } else if (item && item.guru && item.guru !== '-') {
+                    html += `<td>
+                        <span class="guru-cell">${escapeHtml(item.guru)}</span>
+                        ${item.mapel && item.mapel !== '-' ? `<span class="mapel-cell">${escapeHtml(item.mapel)}</span>` : ''}
+                    </td>`;
+                } else {
+                    html += `<td class="empty-cell">-</td>`;
+                }
+            });
+            html += '</tr>';
+        });
+    });
+
+    html += '</tbody></table></div>';
+
+    // Wali kelas
+    const waliKelasMap = {};
+    guruData.forEach(g => {
+        if (g.jabatan && g.jabatan.toLowerCase().includes('wali') && g.kelas) {
+            waliKelasMap[g.kelas] = g.nama;
+        }
+    });
+    if (Object.keys(waliKelasMap).length > 0) {
+        html += '<div class="wali-box"><strong>👨‍🏫 Wali Kelas:</strong><br>';
+        const entries = Object.entries(waliKelasMap).sort();
+        html += entries.map(([k, v]) => `${escapeHtml(k)}: ${escapeHtml(v)}`).join(' &nbsp;|&nbsp; ');
+        html += '</div>';
+    }
+
+    // Info update
+    const exportedAt = data.exportedAt ? new Date(data.exportedAt).toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    }) : '-';
+    html += `<div class="info-note">🕒 Data diperbarui: <strong>${exportedAt}</strong></div>`;
+
+    document.getElementById('jadwalContent').innerHTML = html;
+}
+
+// ============================================================
+// LOAD & RENDER
+// ============================================================
+async function loadJadwal() {
+    try {
+        const res = await fetch(NAMA_FILE_JSON + '?v=' + Date.now());
+        if (!res.ok) throw new Error('File "' + NAMA_FILE_JSON + '" tidak ditemukan.');
+        const data = await res.json();
+
+        renderTabelLengkap(data);
+        renderUpcomingSchedules(data.jadwal || []);
+    } catch (err) {
+        document.getElementById('jadwalContent').innerHTML =
+            `<div class="error">❌ ${escapeHtml(err.message)}<br>
+            <small style="color:#7f8c8d;">Pastikan file backup JSON berada di folder yang sama dengan file HTML ini, dan nama file sesuai dengan konfigurasi <code>NAMA_FILE_JSON</code>.</small></div>`;
+    }
+}
+
+loadJadwal();
+</script>
+</body>
+</html>
