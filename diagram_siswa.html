@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b31">
+  <meta name="description" content="Dashboard statistik jumlah siswa Madrasah Diniyah AL-HILAL.">
+  <title>Dashboard Siswa | Madrasah Diniyah AL-HILAL</title>
+  <style>
+    :root{--green:#123b31;--green2:#1e6a51;--mint:#e9f5ee;--gold:#d9a441;--ink:#182a24;--muted:#718078;--line:#e5ece7;--paper:#f5f8f6;--white:#fff;--blue:#4e82c4;--pink:#d779a4;--shadow:0 10px 30px rgba(22,58,43,.07)}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+    .topbar{height:7px;background:linear-gradient(90deg,var(--green),var(--gold),var(--green2))}
+    .container{width:min(1180px,calc(100% - 36px));margin:auto}
+    header{background:var(--white);border-bottom:1px solid var(--line)}.head-inner{display:flex;align-items:center;gap:18px;padding:23px 0}.logo-wrap{width:76px;height:76px;flex:0 0 76px;border-radius:18px;background:var(--mint);display:grid;place-items:center;border:1px solid #d6e9dc;overflow:hidden}.logo-wrap img{width:100%;height:100%;object-fit:contain}.logo-fallback{font-size:29px;color:var(--green)}
+    .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:10px;font-weight:800;color:var(--green2);margin:0 0 4px}.school-name{font-size:clamp(20px,3vw,29px);line-height:1.15;font-weight:850;letter-spacing:-.04em;color:var(--green);margin:0}.school-address{color:var(--muted);font-size:13px;margin:7px 0 0}.head-side{margin-left:auto;text-align:right;flex-shrink:0}.year-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:99px;background:var(--mint);color:var(--green);font-size:12px;font-weight:750}.head-side small{display:block;color:var(--muted);font-size:11px;margin-top:8px}
+    main{padding:30px 0 44px}.page-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:23px}.page-intro h2{font-size:25px;letter-spacing:-.04em;margin:0;color:var(--ink)}.page-intro p{margin:5px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid #d6e3db;background:white;color:var(--green);font:inherit;font-size:12px;font-weight:750;padding:10px 13px;border-radius:11px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}.btn.primary{background:var(--green);border-color:var(--green);color:white}.btn:hover{filter:brightness(.97)}input[type=file]{display:none}
+    .status{display:flex;align-items:flex-start;gap:10px;padding:12px 15px;border:1px solid #dce9df;background:#f0f8f2;border-radius:13px;color:#285642;font-size:12px;margin-bottom:20px}.status.error{background:#fff5ed;border-color:#f2d7c2;color:#874b23}.status .dot{width:8px;height:8px;background:#3b9c67;border-radius:50%;margin-top:5px;flex:0 0 8px}.status.error .dot{background:#d47b3f}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:18px}.stat{background:var(--white);border:1px solid var(--line);border-radius:17px;padding:20px 21px;box-shadow:var(--shadow);position:relative;overflow:hidden}.stat:after{content:"";position:absolute;width:86px;height:86px;right:-28px;top:-29px;border-radius:50%;background:var(--tint,#e9f5ee)}.stat-top{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:1}.stat-label{font-size:12px;color:var(--muted);font-weight:700}.stat-icon{height:35px;width:35px;display:grid;place-items:center;border-radius:11px;background:var(--tint,#e9f5ee);color:var(--accent,var(--green));font-size:17px}.stat-number{font-size:35px;font-weight:850;letter-spacing:-.05em;line-height:1.1;margin:16px 0 7px;position:relative;z-index:1}.stat-foot{font-size:11px;color:var(--muted);position:relative;z-index:1}.stat-foot strong{color:var(--accent,var(--green))}
+    .grid-main{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.42fr);gap:18px;margin-bottom:18px}.panel{background:var(--white);border:1px solid var(--line);border-radius:17px;padding:21px;box-shadow:var(--shadow);min-width:0}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}.panel-title{font-size:15px;font-weight:800;margin:0;letter-spacing:-.02em}.panel-subtitle{font-size:11px;color:var(--muted);margin:4px 0 0}.tag{background:#f0f5f1;border-radius:7px;color:var(--green2);font-size:10px;font-weight:800;padding:5px 8px;white-space:nowrap}
+    .donut-area{display:flex;align-items:center;justify-content:center;gap:22px;padding:7px 0 17px}.donut{width:164px;height:164px;border-radius:50%;position:relative;flex:0 0 164px;background:conic-gradient(var(--blue) 0 var(--male-deg,52.17%),var(--pink) var(--male-deg,52.17%) 100%)}.donut:after{content:"";position:absolute;inset:17px;background:white;border-radius:50%}.donut-center{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.donut-center strong{font-size:30px;letter-spacing:-.05em;line-height:1.1}.donut-center span{font-size:10px;color:var(--muted);margin-top:5px}.legend{display:grid;gap:14px;min-width:100px}.legend-row{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}.legend-dot{width:9px;height:9px;border-radius:3px;flex:0 0 9px}.legend-row strong{display:block;font-size:18px;color:var(--ink);line-height:1.25}.legend-row small{font-size:10px;color:var(--muted)}.share-bars{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:12px}.share-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px}.share-top span{color:var(--muted)}.track{height:7px;border-radius:99px;background:#eef2ef;overflow:hidden}.fill{height:100%;border-radius:99px;width:0;transition:width .35s ease}.fill.male{background:var(--blue)}.fill.female{background:var(--pink)}
+    .chart-legend{display:flex;gap:13px;align-items:center;flex-wrap:wrap;font-size:10px;color:var(--muted)}.chart-legend span{display:inline-flex;align-items:center;gap:6px}.chart-bars{display:grid;gap:15px;margin-top:15px}.bar-row{display:grid;grid-template-columns:62px minmax(0,1fr) 35px;gap:10px;align-items:center}.bar-class{font-size:12px;font-weight:800;color:#4b5e54}.bar-stack{display:flex;flex-direction:column;gap:4px}.bar-line{height:10px;background:#eff3f0;border-radius:4px;overflow:hidden}.bar-line i{display:block;height:100%;border-radius:4px;width:0;transition:width .4s ease}.bar-line i.male{background:var(--blue)}.bar-line i.female{background:var(--pink)}.bar-total{text-align:right;font-size:12px;font-weight:800}.bar-total small{display:block;font-size:9px;color:var(--muted);font-weight:600}
+    .table-panel{padding:0;overflow:hidden}.table-panel .panel-head{padding:21px 21px 0}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:500px}thead th{background:#f6f9f7;color:#718078;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;padding:12px 20px;text-align:left;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}thead th:not(:first-child),tbody td:not(:first-child),tfoot td:not(:first-child){text-align:center}tbody td,tfoot td{padding:14px 20px;border-bottom:1px solid #edf1ee;font-size:12px}tbody tr:hover{background:#fbfdfb}.class-name{display:flex;align-items:center;gap:10px;font-weight:800}.class-number{width:29px;height:29px;display:grid;place-items:center;border-radius:9px;background:var(--mint);color:var(--green);font-size:11px}.gender-pill{display:inline-flex;min-width:40px;justify-content:center;padding:5px 9px;border-radius:8px;font-weight:800;font-size:11px}.gender-pill.m{background:#eaf1fb;color:#3869a6}.gender-pill.f{background:#fbeef4;color:#ae527d}.total-cell{font-weight:850;color:var(--green)}tfoot td{background:#f5f9f6;font-weight:850;border-bottom:0}.empty{text-align:center!important;padding:28px;color:var(--muted)}
+    .privacy-note{margin-top:18px;font-size:11px;color:#68766e;background:#edf3ef;border-radius:12px;padding:12px 14px;line-height:1.65}.privacy-note strong{color:var(--green)}footer{background:var(--green);color:#e6f0e9;padding:23px 0}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:14px}.footer-name{font-size:12px;font-weight:800}.footer-note{font-size:10px;color:#b9d0c3;margin-top:4px}.footer-year{font-size:11px;color:#d6e7dc;text-align:right}
+    @media(max-width:760px){.head-inner{align-items:flex-start;gap:12px;padding:17px 0}.logo-wrap{width:58px;height:58px;flex-basis:58px;border-radius:14px}.head-side{display:none}.school-address{font-size:11px}.container{width:min(100% - 24px,1180px)}main{padding-top:23px}.page-intro{align-items:flex-start;flex-direction:column}.page-intro h2{font-size:22px}.stats{gap:10px}.stat{padding:15px 13px;border-radius:14px}.stat-number{font-size:28px;margin-top:13px}.stat-label{font-size:10px}.stat-icon{width:29px;height:29px;font-size:14px}.stat-foot{font-size:9px}.grid-main{grid-template-columns:1fr}.panel{padding:17px}.donut-area{gap:16px}.donut{width:145px;height:145px;flex-basis:145px}.donut-center strong{font-size:27px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-year{text-align:left}}
+    @media(max-width:390px){.stats{grid-template-columns:1fr}.stat{display:grid;grid-template-columns:1fr auto;align-items:center}.stat-top{display:contents}.stat-label{align-self:end}.stat-icon{grid-column:2;grid-row:1/3}.stat-number{grid-column:1;margin:6px 0}.stat-foot{grid-column:1}.donut-area{gap:12px}.donut{width:128px;height:128px;flex-basis:128px}.donut:after{inset:14px}}
+  </style>
+</head>
+<body>
+  <div class="topbar"></div>
+  <header>
+    <div class="container head-inner">
+      <div class="logo-wrap" id="logoWrap"><span class="logo-fallback">✦</span></div>
+      <div>
+        <p class="eyebrow">Portal statistik pendidikan</p>
+        <h1 class="school-name" id="schoolName">Madrasah Diniyah AL-HILAL</h1>
+        <p class="school-address" id="schoolAddress">Alamat lembaga akan ditampilkan dari data.json</p>
+      </div>
+      <div class="head-side"><span class="year-pill">▦ <span id="yearTop">Tahun Ajaran</span></span><small>Dashboard statistik siswa</small></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-intro">
+      <div><h2>Ringkasan Data Siswa</h2><p>Informasi jumlah siswa dan distribusi per kelas.</p></div>
+      <div class="actions">
+        <button class="btn primary" id="reloadBtn" type="button">⟳ Muat ulang data</button>
+      </div>
+    </div>
+
+    <div class="status" id="statusBox" role="status"><span class="dot"></span><div><strong id="statusTitle">Memuat data.json…</strong><div id="statusText">Dashboard sedang membaca data.json secara otomatis dari folder yang sama.</div></div></div>
+
+    <section class="stats" aria-label="Statistik utama">
+      <article class="stat" style="--accent:var(--green);--tint:#e9f5ee"><div class="stat-top"><span class="stat-label">Total seluruh siswa</span><span class="stat-icon">♙</span></div><div class="stat-number" id="totalCount">—</div><div class="stat-foot">Seluruh data pada bagian <strong>santri</strong></div></article>
+      <article class="stat" style="--accent:var(--blue);--tint:#eaf1fb"><div class="stat-top"><span class="stat-label">Siswa laki-laki</span><span class="stat-icon">♂</span></div><div class="stat-number" id="maleCount">—</div><div class="stat-foot" id="maleShare">Kode jenis kelamin: L</div></article>
+      <article class="stat" style="--accent:var(--pink);--tint:#fbeef4"><div class="stat-top"><span class="stat-label">Siswa perempuan</span><span class="stat-icon">♀</span></div><div class="stat-number" id="femaleCount">—</div><div class="stat-foot" id="femaleShare">Kode jenis kelamin: P</div></article>
+    </section>
+
+    <section class="grid-main">
+      <article class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">Komposisi Siswa</h3><p class="panel-subtitle">Perbandingan laki-laki dan perempuan</p></div><span class="tag">GENDER</span></div>
+        <div class="donut-area"><div class="donut" id="donut"><div class="donut-center"><strong id="donutTotal">—</strong><span>total siswa</span></div></div><div class="legend"><div class="legend-row"><i class="legend-dot" style="background:var(--blue)"></i><div><strong id="legendMale">—</strong><small>Laki-laki · <span id="legendMalePct">—</span></small></div></div><div class="legend-row"><i class="legend-dot" style="background:var(--pink)"></i><div><strong id="legendFemale">—</strong><small>Perempuan · <span id="legendFemalePct">—</span></small></div></div></div></div>
+        <div class="share-bars"><div><div class="share-top"><strong>Laki-laki</strong><span id="maleBarLabel">—</span></div><div class="track"><div class="fill male" id="maleFill"></div></div></div><div><div class="share-top"><strong>Perempuan</strong><span id="femaleBarLabel">—</span></div><div class="track"><div class="fill female" id="femaleFill"></div></div></div></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><div><h3 class="panel-title">Grafik Jumlah Siswa per Kelas</h3><p class="panel-subtitle">Perbandingan jumlah siswa di setiap kelas</p></div><div class="chart-legend"><span><i class="legend-dot" style="background:var(--blue)"></i>Laki-laki</span><span><i class="legend-dot" style="background:var(--pink)"></i>Perempuan</span></div></div>
+        <div class="chart-bars" id="classChart"><div class="empty">Menunggu data dimuat…</div></div>
+      </article>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="panel-head"><div><h3 class="panel-title">Rekap Jumlah Siswa per Kelas</h3><p class="panel-subtitle">Rincian siswa laki-laki, perempuan, dan total pada setiap kelas.</p></div><span class="tag" id="classCountTag">0 KELAS</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Kelas</th><th>Laki-laki</th><th>Perempuan</th><th>Total Siswa</th></tr></thead><tbody id="classTable"><tr><td colspan="4" class="empty">Menunggu data dimuat…</td></tr></tbody><tfoot id="classFoot"><tr><td>Total keseluruhan</td><td>—</td><td>—</td><td>—</td></tr></tfoot></table></div>
+    </section>
+
+    <div class="privacy-note"><strong>Catatan privasi:</strong> Dashboard membaca file <code>data.json</code> secara otomatis dari folder yang sama. Jika halaman dipasang di GitHub Pages atau hosting publik, pastikan file JSON tidak berisi biodata sensitif karena dapat diakses oleh pengunjung.</div>
+  </main>
+
+  <footer><div class="container footer-inner"><div><div class="footer-name" id="footerName">Madrasah Diniyah AL-HILAL</div><div class="footer-note">Dashboard statistik jumlah siswa · Data diproses langsung di browser</div></div><div class="footer-year" id="footerYear">Tahun Ajaran —</div></div></footer>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => new Intl.NumberFormat('id-ID').format(n);
+    let currentData = null;
+
+    function setStatus(title, message, isError = false) {
+      $('statusTitle').textContent = title;
+      $('statusText').textContent = message;
+      $('statusBox').classList.toggle('error', isError);
+    }
+    function normalizeGender(s) {
+      const value = String(s?.biodata?.jk ?? s?.jk ?? '').trim().toUpperCase();
+      if (['L','LAKI-LAKI','LAKI LAKI','MALE'].includes(value)) return 'L';
+      if (['P','PEREMPUAN','WANITA','FEMALE'].includes(value)) return 'P';
+      return '?';
+    }
+    function classSort(a, b) {
+      const order = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+      const aa = String(a).trim().toUpperCase(), bb = String(b).trim().toUpperCase();
+      const ia = order.indexOf(aa), ib = order.indexOf(bb);
+      if (ia >= 0 || ib >= 0) return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
+      return aa.localeCompare(bb, 'id', {numeric:true});
+    }
+    function escapeText(value) {
+      return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function render(data, sourceLabel) {
+      if (!data || !Array.isArray(data.santri)) throw new Error('Struktur file tidak sesuai: properti "santri" berupa array tidak ditemukan.');
+      currentData = data;
+      const students = data.santri;
+      const madrasah = data.madrasah || {};
+      const male = students.filter(s => normalizeGender(s) === 'L').length;
+      const female = students.filter(s => normalizeGender(s) === 'P').length;
+      const unknown = students.length - male - female;
+      const total = students.length;
+      const malePct = total ? male / total * 100 : 0;
+      const femalePct = total ? female / total * 100 : 0;
+      const year = madrasah.tahunAjaran || students.find(s => s.tahunAjaran)?.tahunAjaran || '—';
+      const schoolName = madrasah.nama || 'Dashboard Statistik Siswa';
+      $('schoolName').textContent = schoolName;
+      $('schoolAddress').textContent = madrasah.alamat || 'Alamat lembaga belum tersedia pada data.json';
+      $('footerName').textContent = schoolName;
+      $('yearTop').textContent = 'TA ' + year;
+      $('footerYear').textContent = 'Tahun Ajaran ' + year;
+      const logoWrap = $('logoWrap');
+      logoWrap.replaceChildren();
+      if (typeof madrasah.logo === 'string' && madrasah.logo.startsWith('data:image/')) {
+        const img = document.createElement('img'); img.src = madrasah.logo; img.alt = 'Logo ' + schoolName; logoWrap.appendChild(img);
+      } else {
+        const span = document.createElement('span'); span.className = 'logo-fallback'; span.textContent = '✦'; logoWrap.appendChild(span);
+      }
+      $('totalCount').textContent = fmt(total);
+      $('maleCount').textContent = fmt(male);
+      $('femaleCount').textContent = fmt(female);
+      $('maleShare').textContent = malePct.toLocaleString('id-ID',{maximumFractionDigits:1}) + '% dari seluruh siswa';
+      $('femaleShare').textContent = femalePct.toLocaleString('id-ID',{maximumFractionDigits:1}) + '% dari seluruh siswa';
+      $('donutTotal').textContent = fmt(total);
+      $('legendMale').textContent = fmt(male);
+      $('legendFemale').textContent = fmt(female);
+      $('legendMalePct').textContent = malePct.toLocaleString('id-ID',{maximumFractionDigits:1}) + '%';
+      $('legendFemalePct').textContent = femalePct.toLocaleString('id-ID',{maximumFractionDigits:1}) + '%';
+      $('donut').style.setProperty('--male-deg', malePct + '%');
+      $('maleFill').style.width = malePct + '%'; $('femaleFill').style.width = femalePct + '%';
+      $('maleBarLabel').textContent = `${fmt(male)} siswa (${malePct.toLocaleString('id-ID',{maximumFractionDigits:1})}%)`;
+      $('femaleBarLabel').textContent = `${fmt(female)} siswa (${femalePct.toLocaleString('id-ID',{maximumFractionDigits:1})}%)`;
+
+      const groups = new Map();
+      for (const student of students) {
+        const cls = String(student.kelas ?? student.akademik?.diterimaKelas ?? 'Belum diisi').trim() || 'Belum diisi';
+        if (!groups.has(cls)) groups.set(cls, {male:0, female:0, unknown:0});
+        const group = groups.get(cls); const gender = normalizeGender(student);
+        if (gender === 'L') group.male++; else if (gender === 'P') group.female++; else group.unknown++;
+      }
+      const rows = [...groups.entries()].sort((a,b) => classSort(a[0],b[0]));
+      const maxClass = Math.max(1, ...rows.map(([,v]) => v.male + v.female + v.unknown));
+      $('classCountTag').textContent = `${rows.length} KELAS`;
+      $('classChart').innerHTML = rows.length ? rows.map(([cls,v]) => {
+        const all = v.male + v.female + v.unknown;
+        return `<div class="bar-row"><div class="bar-class">Kelas ${escapeText(cls)}</div><div class="bar-stack"><div class="bar-line" title="Laki-laki: ${v.male}"><i class="male" style="width:${v.male/maxClass*100}%"></i></div><div class="bar-line" title="Perempuan: ${v.female}"><i class="female" style="width:${v.female/maxClass*100}%"></i></div></div><div class="bar-total">${fmt(all)}<small>siswa</small></div></div>`;
+      }).join('') : '<div class="empty">Tidak ada data kelas.</div>';
+      $('classTable').innerHTML = rows.length ? rows.map(([cls,v]) => {
+        const all = v.male + v.female + v.unknown;
+        return `<tr><td><div class="class-name"><span class="class-number">${escapeText(cls)}</span> Kelas ${escapeText(cls)}</div></td><td><span class="gender-pill m">${fmt(v.male)}</span></td><td><span class="gender-pill f">${fmt(v.female)}</span></td><td class="total-cell">${fmt(all)}</td></tr>`;
+      }).join('') : '<tr><td colspan="4" class="empty">Tidak ada data kelas.</td></tr>';
+      const unknownNote = unknown ? ` Terdapat ${fmt(unknown)} data dengan jenis kelamin yang belum dikenali.` : '';
+      $('classFoot').innerHTML = `<tr><td>Total keseluruhan</td><td>${fmt(male)}</td><td>${fmt(female)}</td><td>${fmt(total)}</td></tr>`;
+      setStatus('Data berhasil dimuat', `${fmt(total)} siswa terbaca dari ${sourceLabel}. ${rows.length} kelas ditemukan.${unknownNote}`, false);
+    }
+    async function loadFromPath() {
+      setStatus('Memuat data.json…', 'Membaca data.json secara otomatis dari folder yang sama dengan halaman ini.');
+      try {
+        const response = await fetch('./data.json', {cache:'no-store'});
+        if (!response.ok) throw new Error(`File data.json tidak dapat dimuat (HTTP ${response.status}).`);
+        const data = await response.json();
+        render(data, 'data.json');
+      } catch (err) {
+        const isFile = window.location.protocol === 'file:';
+        setStatus(
+          'Data belum berhasil dimuat otomatis',
+          isFile
+            ? 'Browser biasanya memblokir pembacaan JSON saat HTML dibuka langsung dari file komputer. Jalankan melalui server lokal (misalnya XAMPP) atau hosting, lalu pastikan data.json berada satu folder dengan index.html.'
+            : 'Pastikan nama file tepat data.json (huruf kecil), file berada satu folder dengan index.html, dan server mengizinkan akses ke file tersebut.',
+          true
+        );
+      }
+    }
+    $('reloadBtn').addEventListener('click', loadFromPath);
+    loadFromPath();
+  </script>
+</body>
+</html>
