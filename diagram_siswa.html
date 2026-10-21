@@ -7,6 +7,209 @@
   <meta name="description" content="Dashboard statistik jumlah siswa Madrasah Diniyah AL-HILAL.">
   <title>Dashboard Siswa | Madrasah Diniyah AL-HILAL</title>
   <style>
+    /* ===== PENGATURAN DASAR ===== */
+    :root {
+      --sb-main: #14532d;
+      --sb-accent: #d4af37;
+      --sb-panel: #ffffff;
+      --sb-text: #243047;
+      --sb-width: 280px;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    /* ===== TOMBOL PEMBUKA ===== */
+    #rightSidebarToggle {
+      position: fixed;
+      top: 42%;
+      right: 0;
+      z-index: 99999;
+      width: 48px;
+      height: 58px;
+      border: none;
+      border-radius: 14px 0 0 14px;
+      background: var(--sb-main);
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px #0003;
+      transition: right .35s ease, background .25s;
+      animation: sbPulse 2.5s infinite;
+    }
+    
+    #rightSidebarToggle:hover {
+      background: #166534;
+    }
+    
+    #rightSidebarToggle.is-open {
+      right: var(--sb-width);
+      animation: none;
+    }
+    
+    /* ===== PANEL SIDEBAR ===== */
+    #rightSidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 99998;
+      width: var(--sb-width);
+      max-width: calc(100vw - 55px);
+      height: 100vh;
+      height: 100dvh;
+      box-sizing: border-box;
+      background: var(--sb-panel);
+      box-shadow: -8px 0 30px #0002;
+      transform: translateX(110%);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1);
+      display: flex;
+      flex-direction: column;
+      visibility: hidden;
+    }
+    
+    #rightSidebar.is-open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+    
+    /* ===== HEADER ===== */
+    .sb-header {
+      padding: 25px 20px;
+      color: white;
+      background: linear-gradient(135deg, #14532d, #166534);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .sb-header::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 1px solid #ffffff30;
+      border-radius: 50%;
+      right: -35px;
+      top: -45px;
+    }
+    
+    .sb-brand {
+      font-size: 19px;
+      font-weight: bold;
+      letter-spacing: .5px;
+    }
+    
+    .sb-subtitle {
+      font-size: 12px;
+      opacity: .8;
+      margin-top: 7px;
+    }
+    
+    #rightSidebarClose {
+      position: absolute;
+      top: 15px;
+      right: 14px;
+      z-index: 1;
+      border: 0;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      color: white;
+      background: #ffffff20;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    /* ===== DAFTAR MENU ===== */
+    .sb-menu {
+      padding: 16px 12px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    
+    .sb-label {
+      padding: 8px 12px;
+      color: #8a94a5;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+    }
+    
+    .sb-link {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 13px 12px;
+      margin: 4px 0;
+      color: var(--sb-text);
+      text-decoration: none;
+      border-radius: 11px;
+      font-size: 14px;
+      transition: background .25s, color .25s,
+                  transform .25s;
+    }
+    
+    .sb-icon {
+      width: 24px;
+      text-align: center;
+      font-size: 19px;
+    }
+    
+    .sb-link:hover,
+    .sb-link.active {
+      background: #e8f5ec;
+      color: var(--sb-main);
+      transform: translateX(-4px);
+    }
+    
+    .sb-link.active {
+      font-weight: bold;
+      box-shadow: inset -3px 0 var(--sb-accent);
+    }
+    
+    /* ===== FOOTER ===== */
+    .sb-footer {
+      padding: 16px;
+      text-align: center;
+      color: #7b8494;
+      font-size: 11px;
+      border-top: 1px solid #edf0f3;
+    }
+    
+    /* ===== LAPISAN GELAP ===== */
+    #rightSidebarOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99997;
+      background: #0b1220a0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s, visibility .3s;
+    }
+    
+    #rightSidebarOverlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* ===== ANIMASI TOMBOL ===== */
+    @keyframes sbPulse {
+      0%, 100% { box-shadow: 0 4px 18px #0003; }
+      50% { box-shadow: 0 4px 22px #d4af3780; }
+    }
+    
+    /* Hormati pengaturan minim animasi */
+    @media (prefers-reduced-motion: reduce) {
+      #rightSidebar,
+      #rightSidebarToggle,
+      #rightSidebarOverlay,
+      .sb-link {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+/*  ===============================   */    
     :root{--green:#123b31;--green2:#1e6a51;--mint:#e9f5ee;--gold:#d9a441;--ink:#182a24;--muted:#718078;--line:#e5ece7;--paper:#f5f8f6;--white:#fff;--blue:#4e82c4;--pink:#d779a4;--shadow:0 10px 30px rgba(22,58,43,.07)}
     *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
     .topbar{height:7px;background:linear-gradient(90deg,var(--green),var(--gold),var(--green2))}
@@ -26,6 +229,84 @@
   </style>
 </head>
 <body>
+  <!-- TOMBOL MENU -->
+  <button id="rightSidebarToggle"
+          type="button"
+          aria-label="Buka menu navigasi"
+          aria-controls="rightSidebar"
+          aria-expanded="false">
+    <span id="sbToggleIcon">☰</span>
+  </button>
+  
+  <!-- OVERLAY -->
+  <div id="rightSidebarOverlay"></div>
+  
+  <!-- SIDEBAR -->
+  <aside id="rightSidebar"
+         aria-label="Navigasi utama"
+         aria-hidden="true"
+         inert>
+  
+    <div class="sb-header">
+      <div class="sb-brand">✦ MENU UTAMA</div>
+      <div class="sb-subtitle">Portal Informasi & Layanan</div>
+      <button id="rightSidebarClose"
+              type="button"
+              aria-label="Tutup menu">×</button>
+    </div>
+  
+    <nav class="sb-menu">
+      <div class="sb-label">NAVIGASI</div>
+  
+      <!-- GANTI LINK # DENGAN URL TUJUAN -->
+      <a class="sb-link active" href="index.html">
+        <span class="sb-icon">⌂</span>
+        <span>Beranda</span>
+      </a>
+  
+      <a class="sb-link" href="#profil">
+        <span class="sb-icon">🏫</span>
+        <span>Profil Madrasah</span>
+      </a>
+  
+      <a class="sb-link" href="jadwal_widget.html">
+        <span class="sb-icon">📢</span>
+        <span>Jadwal Mengajar Asatid</span>
+      </a>
+  
+      <a class="sb-link" href="kaligrafi.html">
+        <span class="sb-icon">▤</span>
+        <span>Hasil Lomba kaligrafi</span>
+      </a>
+  
+      <a class="sb-link" href="diagram_siswa.html">
+        <span class="sb-icon">👨‍🎓</span>
+        <span>Data Siswa</span>
+      </a>
+  
+      <a class="sb-link" href="#galeri">
+        <span class="sb-icon">▧</span>
+        <span>Galeri Kegiatan</span>
+      </a>
+  
+      <a class="sb-link" href="#kontak">
+        <span class="sb-icon">✉</span>
+        <span>Hubungi Kami</span>
+      </a>
+  
+      <div class="sb-label">TAUTAN EKSTERNAL</div>
+  
+      <a class="sb-link"
+         href="https://www.google.com/"
+         target="_blank"
+         rel="noopener noreferrer">
+        <span class="sb-icon">🌐</span>
+        <span>Website Eksternal ↗</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ========================================================================== -->
   <div class="topbar"></div>
   <header>
     <div class="container head-inner">
@@ -186,5 +467,80 @@
     $('reloadBtn').addEventListener('click', loadFromPath);
     loadFromPath();
   </script>
+
+  <script>
+    (() => {
+      const toggle = document.getElementById("rightSidebarToggle");
+      const icon = document.getElementById("sbToggleIcon");
+      const sidebar = document.getElementById("rightSidebar");
+      const close = document.getElementById("rightSidebarClose");
+      const overlay = document.getElementById("rightSidebarOverlay");
+    
+      if (!toggle || !sidebar || !close || !overlay) return;
+    
+      let isOpen = false;
+      let previousFocus = null;
+    
+      function setSidebar(open) {
+        isOpen = open;
+    
+        sidebar.classList.toggle("is-open", open);
+        toggle.classList.toggle("is-open", open);
+        overlay.classList.toggle("is-open", open);
+    
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute(
+          "aria-label",
+          open ? "Tutup menu navigasi" : "Buka menu navigasi"
+        );
+    
+        sidebar.setAttribute("aria-hidden", String(!open));
+        sidebar.inert = !open;
+    
+        icon.textContent = open ? "✕" : "☰";
+    
+        if (open) {
+          previousFocus = document.activeElement;
+          close.focus();
+        } else if (previousFocus && previousFocus.focus) {
+          toggle.focus();
+        }
+      }
+    
+      toggle.addEventListener("click", () => {
+        setSidebar(!isOpen);
+      });
+    
+      close.addEventListener("click", () => {
+        setSidebar(false);
+      });
+    
+      overlay.addEventListener("click", () => {
+        setSidebar(false);
+      });
+    
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && isOpen) {
+          setSidebar(false);
+        }
+      });
+    
+      sidebar.querySelectorAll(".sb-link").forEach(link => {
+        link.addEventListener("click", () => {
+          if (link.target !== "_blank") {
+            sidebar.querySelectorAll(".sb-link").forEach(item => {
+              item.classList.remove("active");
+            });
+            link.classList.add("active");
+          }
+    
+          setSidebar(false);
+        });
+      });
+    
+      // Tutup otomatis jika layar berubah menjadi desktop lebar
+      // tidak dilakukan agar keadaan menu tetap konsisten.
+    })();
+</script>
 </body>
 </html>
